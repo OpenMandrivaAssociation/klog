@@ -25,6 +25,7 @@ BuildRequires:	hamlib-devel
 BuildRequires:	cmake
 BuildRequires:	gettext
 BuildRequires:	desktop-file-utils
+BuildRequires:	gcc-c++
 
 %description
 KLog is a Ham radio logging program for KDE
