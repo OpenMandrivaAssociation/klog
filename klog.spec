@@ -52,7 +52,7 @@ and are not yet implemented.
 %build
 %cmake   -DCMAKE_INSTALL_PREFIX=/usr
 
-%make     CFLAGS="$RPM_OPT_FLAGS"
+%make-kde4     CFLAGS="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
