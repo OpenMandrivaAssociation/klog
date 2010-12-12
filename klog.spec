@@ -50,7 +50,7 @@ and are not yet implemented.
 #%patch1 -p1 -b %{name}-%{version}.desktop.patch
 
 %build
-%cmake_kde4    -DCMAKE_INSTALL_PREFIX=/usr
+%cmake-kde4    -DCMAKE_INSTALL_PREFIX=/usr
 
 %make     CFLAGS="$RPM_OPT_FLAGS"
 
