@@ -15,7 +15,7 @@ Source0:	http://jaime.robles.es/%{name}/download/%{name}-%{version}.tar.gz
 # Wrapper script installs needed files in users home directory.
 Source1:	%{name}.sh.in
 # Patch CMakeLists.txt
-#Patch0:		%{name}-%{version}.CMakeList.txt.patch
+Patch0:		%{name}-%{version}.CMakeList.txt.patch
 # Patch .desktop file
 #Patch1:		%{name}-%{version}.desktop.patch
 
@@ -46,13 +46,13 @@ and are not yet implemented.
 
 %prep
 %setup -q
-#%patch0 -p1 -b %{name}-%{version}.CMakeList.txt.patch
+%patch0 -p1 -b %{name}-%{version}.CMakeList.txt.patch
 #%patch1 -p1 -b %{name}-%{version}.desktop.patch
 
 %build
 %cmake   -DCMAKE_INSTALL_PREFIX=/usr
 
-%make-kde4     CFLAGS="$RPM_OPT_FLAGS"
+make     CFLAGS="$RPM_OPT_FLAGS"
 
 %install
 rm -rf $RPM_BUILD_ROOT
