@@ -20,12 +20,9 @@ Patch0:		%{name}-%{version}.CMakeList.txt.patch
 #Patch1:		%{name}-%{version}.desktop.patch
 
 
-BuildRequires:	qt4-devel
+BuildRequires:	kdelibs4-devel
 BuildRequires:	hamlib-devel
-BuildRequires:	cmake
-BuildRequires:	gettext
 BuildRequires:	desktop-file-utils
-BuildRequires:	gcc-c++
 
 %description
 KLog is a Ham radio logging program for KDE
@@ -47,12 +44,12 @@ and are not yet implemented.
 %prep
 %setup -q
 %patch0 -p1 -b %{name}-%{version}.CMakeList.txt.patch
+sed -i -e 's#/usr/libexec#%{_libexecdir}#' %{SOURCE1}
 #%patch1 -p1 -b %{name}-%{version}.desktop.patch
 
 %build
-%cmake   -DCMAKE_INSTALL_PREFIX=/usr
-
-make     CFLAGS="$RPM_OPT_FLAGS"
+%cmake_kde4
+%make
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -104,5 +101,3 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/skel/.%{name}/data/cty.dat
 %config(noreplace) %{_sysconfdir}/skel/.%{name}/awa/was.awa
 %config(noreplace) %{_sysconfdir}/skel/.%{name}/awa/tpea.awa
-
-
