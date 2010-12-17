@@ -1,7 +1,6 @@
 %define name    klog
 %define version 0.5.7
-%define rel     1
-
+%define rel     2
 
 Name:           %{name}
 Version:        %{version}
@@ -14,12 +13,7 @@ URL:		http://jaime.robles.es/eklog.php
 Source0:	http://jaime.robles.es/%{name}/download/%{name}-%{version}.tar.gz
 # Wrapper script installs needed files in users home directory.
 Source1:	%{name}.sh.in
-# Patch CMakeLists.txt
-Patch0:		%{name}-%{version}.CMakeList.txt.patch
-# Patch .desktop file
-#Patch1:		%{name}-%{version}.desktop.patch
-
-
+Patch1:		klog-0.5.7-fix_desktop_file.patch
 BuildRequires:	kdelibs4-devel
 BuildRequires:	hamlib-devel
 BuildRequires:	desktop-file-utils
@@ -43,46 +37,45 @@ and are not yet implemented.
 
 %prep
 %setup -q
-%patch0 -p1 -b %{name}-%{version}.CMakeList.txt.patch
+%patch1 -p0
+
 sed -i -e 's#/usr/libexec#%{_libexecdir}#' %{SOURCE1}
-#%patch1 -p1 -b %{name}-%{version}.desktop.patch
 
 %build
 %cmake_kde4
 %make
 
 %install
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 %makeinstall_std -C build
 
 %find_lang %{name}
 
-
 # Install default user configuration files
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/data/
-mkdir -p $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/awa/
-install -p -D -m 0644 ./awa/tpea.awa $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/awa/tpea.awa
-install -p -D -m 0644 ./awa/was.awa $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/awa/was.awa
-install -p -D -m 0644 ./data/cty.dat $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/data/cty.dat
-install -p -D -m 0644 ./data/%{name}-contest-cabrillo-formats.txt $RPM_BUILD_ROOT/%{_sysconfdir}/skel/.%{name}/data/%{name}-contest-cabrillo-formats.txt
+mkdir -p %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/
+mkdir -p %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/
+install -p -D -m 0644 ./awa/tpea.awa %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/tpea.awa
+install -p -D -m 0644 ./awa/was.awa %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/was.awa
+install -p -D -m 0644 ./data/cty.dat %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/cty.dat
+install -p -D -m 0644 ./data/%{name}-contest-cabrillo-formats.txt %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/%{name}-contest-cabrillo-formats.txt
 
 # Install the provided .desktop icon
-mkdir -p $RPM_BUILD_ROOT/%{_datadir}/pixmaps/
-install -p -D -m 0644 ./icons/%{name}-icon.png $RPM_BUILD_ROOT/%{_datadir}/pixmaps/%{name}-icon.png
+mkdir -p %{buildroot}/%{_datadir}/pixmaps/
+install -p -D -m 0644 ./icons/%{name}-icon.png %{buildroot}/%{_datadir}/pixmaps/%{name}-icon.png
 
 desktop-file-install \
-	--dir=$RPM_BUILD_ROOT%{_datadir}/applications/kde4 \
-	$RPM_BUILD_ROOT/%{_datadir}/applications/kde4/%{name}.desktop
+	--dir=%{buildroot}%{_datadir}/applications/kde4 \
+	%{buildroot}/%{_datadir}/applications/kde4/%{name}.desktop
 
 # Move original binary to libexecdir
-mkdir -p $RPM_BUILD_ROOT/%{_libexecdir}/
-mv $RPM_BUILD_ROOT/%{_bindir}/%{name} $RPM_BUILD_ROOT/%{_libexecdir}/%{name}-bin
+mkdir -p %{buildroot}/%{_libexecdir}/
+mv %{buildroot}/%{_bindir}/%{name} %{buildroot}/%{_libexecdir}/%{name}-bin
 
 # Install wrapper script installs needed files in users home directory.
-install -p -D -m 0755 %{SOURCE1} $RPM_BUILD_ROOT/%{_bindir}/%{name}
+install -p -D -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}/%{name}
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files -f %{name}.lang
 %defattr(-,root,root,-)
