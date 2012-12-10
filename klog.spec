@@ -1,6 +1,6 @@
 %define name    klog
-%define version 0.5.7
-%define rel     2
+%define version 0.5.9
+%define rel     1
 
 Name:           %{name}
 Version:        %{version}
@@ -10,10 +10,9 @@ Summary:	A Ham radio logging program for KDE
 Group:		Communications
 License:	GPLv2+
 URL:		http://jaime.robles.es/eklog.php
-Source0:	http://jaime.robles.es/%{name}/download/%{name}-%{version}.tar.gz
+Source0:	http://jaime.robles.es/download/%{name}-%{version}.tar.gz
 # Wrapper script installs needed files in users home directory.
 Source1:	%{name}.sh.in
-Patch1:		klog-0.5.7-fix_desktop_file.patch
 BuildRequires:	kdelibs4-devel
 BuildRequires:	hamlib-devel
 BuildRequires:	desktop-file-utils
@@ -37,7 +36,6 @@ and are not yet implemented.
 
 %prep
 %setup -q
-%patch1 -p0
 
 sed -i -e 's#/usr/libexec#%{_libexecdir}#' %{SOURCE1}
 
@@ -46,7 +44,6 @@ sed -i -e 's#/usr/libexec#%{_libexecdir}#' %{SOURCE1}
 %make
 
 %install
-rm -rf %{buildroot}
 %makeinstall_std -C build
 
 %find_lang %{name}
@@ -74,11 +71,7 @@ mv %{buildroot}/%{_bindir}/%{name} %{buildroot}/%{_libexecdir}/%{name}-bin
 # Install wrapper script installs needed files in users home directory.
 install -p -D -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}/%{name}
 
-%clean
-rm -rf %{buildroot}
-
 %files -f %{name}.lang
-%defattr(-,root,root,-)
 %doc AUTHORS COPYING INSTALL README TODO NEWS
 %{_bindir}/%{name}
 %{_libexecdir}/%{name}-bin

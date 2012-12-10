@@ -1,0 +1,41 @@
+#!/bin/sh
+# *****************************************************************************
+#               klog.sh.in  -  Install wrapper script for klog
+#                            -------------------
+#    begin                : June  25 2010
+#    copyright            : (C) 2010 by Randall J. Berry N3LRX
+#    email                : dp67@fedoraproject.org
+# *****************************************************************************
+# *****************************************************************************
+# *                                                                           *
+# *  This program is free software; you can redistribute it and/or modify     *
+# *  it under the terms of the GNU General Public License as published by     *
+# *  the Free Software Foundation; either GPL version 2 of the License, or    *
+# *  (at your option) any later version.                                      *
+# *                                                                           *
+# *  This program is distributed in the hope that it will be useful,          *
+# *  but WITHOUT ANY WARRANTY; without even the implied warranty of           *
+# *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the             *
+# *  GNU General Public License for more details.                             *
+# *                                                                           *
+# *  You should have received a copy of the GNU General Public License        *
+# *  along with this program; if not, write to the Free Software              *
+# *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA  *
+# *                                                                           *
+# *****************************************************************************
+
+# Wrapper script for klog to ensure that configuration is present
+klogbin="/usr/lib/klog-bin"
+# Check if user configuration is present
+if [ ! -e ~/.klog/ ]
+then
+mkdir ~/.klog
+cp /etc/skel/.klog/data/klog-contest-cabrillo-formats.txt ~/.klog/klog-contest-cabrillo-formats.txt
+cp /etc/skel/.klog/awa/tpea.awa ~/.klog/tpea.awa
+cp /etc/skel/.klog/awa/was.awa ~/.klog/was.awa
+cp /etc/skel/.klog/data/cty.dat ~/.klog/cty.dat
+cp /etc/skel/.klog/data/cty.dat ~/.klog/klog-contest-cabrillo-formats.txt
+
+fi
+# Launch klog
+$klogbin
