@@ -14,6 +14,7 @@ BuildRequires:  gettext
 BuildRequires:  desktop-file-utils
 BuildRequires:  imagemagick
 BuildRequires:  qmake5
+BuildRequires:	cmake(Qt5LinguistTools)
 BuildRequires:  pkgconfig(hamlib)
 BuildRequires:  pkgconfig(Qt5Charts)
 BuildRequires:  pkgconfig(Qt5Core)
