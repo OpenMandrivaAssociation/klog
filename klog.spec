@@ -78,5 +78,5 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 %{_datadir}/%{name}/
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-%{_mandir}/man1/%{name}.1.*
+#{_mandir}/man1/%{name}.1.*
 
