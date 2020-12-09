@@ -1,21 +1,29 @@
-%define name    klog
-%define version 0.5.9
-%define rel     1
-
-Name:           %{name}
-Version:        %{version}
-Release:        %mkrel %{rel}
+Name:           klog
+Version:        1.4.3
+Release:        1
 Summary:	A Ham radio logging program for KDE
-
 Group:		Communications
 License:	GPLv2+
-URL:		http://jaime.robles.es/eklog.php
-Source0:	http://jaime.robles.es/download/%{name}-%{version}.tar.gz
-# Wrapper script installs needed files in users home directory.
-Source1:	%{name}.sh.in
-BuildRequires:	kdelibs4-devel
-BuildRequires:	hamlib-devel
-BuildRequires:	desktop-file-utils
+URL:            http://www.klog.xyz
+Source0:        http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}%{?rcv:-%{rcv}}.tar.gz
+Source1:        klog.desktop
+Patch0:         klog-1.2-fix-install.patch
+
+BuildRequires:  dos2unix
+BuildRequires:  gettext
+BuildRequires:  desktop-file-utils
+BuildRequires:  imagemagick
+BuildRequires:  qmake5
+BuildRequires:  pkgconfig(hamlib)
+BuildRequires:  pkgconfig(Qt5Charts)
+BuildRequires:  pkgconfig(Qt5Core)
+BuildRequires:  pkgconfig(Qt5Gui)
+BuildRequires:  pkgconfig(Qt5Help)
+BuildRequires:  pkgconfig(Qt5Network)
+BuildRequires:  pkgconfig(Qt5PrintSupport)
+BuildRequires:  pkgconfig(Qt5SerialPort)
+BuildRequires:  pkgconfig(Qt5Sql)
+BuildRequires:  pkgconfig(Qt5Widgets)
 
 %description
 KLog is a Ham radio logging program for KDE
@@ -35,55 +43,39 @@ Some additional features of this application are still under development
 and are not yet implemented.
 
 %prep
-%setup -q
+%autosetup -p1 -n %{name}-%{version}%{?rcv:-%{rcv}}
 
-sed -i -e 's#/usr/libexec#%{_libexecdir}#' %{SOURCE1}
+# Fix line endings
+dos2unix TODO
+
+# For some reason all files in 0.9.2.9 are marked executable
+find ./ -type f -exec chmod -x {} \;
 
 %build
-%cmake_kde4
-%make
+%qmake_qt5 \
+         "PREFIX=%{buildroot}%{_prefix}" \
+         "CONFIG+=debug c++14" \
+         KLog.pro
+%make_build
 
 %install
-%makeinstall_std -C build
+%make_install
 
-%find_lang %{name}
+# Install the provided desktop icon
+for png in 48x48 64x64 128x128 256x256 512x512; do
+  mkdir -p %{buildroot}%{_iconsdir}/hicolor/${png}/apps/
+  convert -geometry $png img/klog_512x512.png %{buildroot}%{_iconsdir}/hicolor/${png}/apps/%{name}.png
+done
 
-# Install default user configuration files
-mkdir -p %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/
-mkdir -p %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/
-install -p -D -m 0644 ./awa/tpea.awa %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/tpea.awa
-install -p -D -m 0644 ./awa/was.awa %{buildroot}/%{_sysconfdir}/skel/.%{name}/awa/was.awa
-install -p -D -m 0644 ./data/cty.dat %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/cty.dat
-install -p -D -m 0644 ./data/%{name}-contest-cabrillo-formats.txt %{buildroot}/%{_sysconfdir}/skel/.%{name}/data/%{name}-contest-cabrillo-formats.txt
+# Install the provided desktop file
+desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
-# Install the provided .desktop icon
-mkdir -p %{buildroot}/%{_datadir}/pixmaps/
-install -p -D -m 0644 ./icons/%{name}-icon.png %{buildroot}/%{_datadir}/pixmaps/%{name}-icon.png
-
-desktop-file-install \
-	--dir=%{buildroot}%{_datadir}/applications/kde4 \
-	%{buildroot}/%{_datadir}/applications/kde4/%{name}.desktop
-
-# Move original binary to libexecdir
-mkdir -p %{buildroot}/%{_libexecdir}/
-mv %{buildroot}/%{_bindir}/%{name} %{buildroot}/%{_libexecdir}/%{name}-bin
-
-# Install wrapper script installs needed files in users home directory.
-install -p -D -m 0755 %{SOURCE1} %{buildroot}/%{_bindir}/%{name}
-
-%files -f %{name}.lang
-%doc AUTHORS COPYING INSTALL README TODO NEWS
+%files
+%doc AUTHORS Changelog README TODO
+%license COPYING
 %{_bindir}/%{name}
-%{_libexecdir}/%{name}-bin
-%{_datadir}/pixmaps/%{name}-icon.png
-%{_datadir}/applications/kde4/%{name}.desktop
-%{_datadir}/icons/locolor/16x16/apps/%{name}.png
-%{_datadir}/icons/locolor/32x32/apps/%{name}.png
-%{_datadir}/apps/%{name}/klogui.rc
-%dir %{_sysconfdir}/skel/.%{name}/
-%dir %{_sysconfdir}/skel/.%{name}/data/
-%dir %{_sysconfdir}/skel/.%{name}/awa/
-%config(noreplace) %{_sysconfdir}/skel/.%{name}/data/%{name}-contest-cabrillo-formats.txt
-%config(noreplace) %{_sysconfdir}/skel/.%{name}/data/cty.dat
-%config(noreplace) %{_sysconfdir}/skel/.%{name}/awa/was.awa
-%config(noreplace) %{_sysconfdir}/skel/.%{name}/awa/tpea.awa
+%{_datadir}/%{name}/
+%{_datadir}/applications/%{name}.desktop
+%{_iconsdir}/hicolor/*/apps/%{name}.png
+%{_mandir}/man1/%{name}.1.*
+
