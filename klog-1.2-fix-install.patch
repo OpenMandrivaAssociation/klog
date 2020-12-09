@@ -1,0 +1,29 @@
+diff -Nrup a/KLog.pro b/KLog.pro
+--- a/KLog.pro	2020-08-05 19:39:48.000000000 +0200
++++ b/KLog.pro	2020-08-18 07:13:38.239980408 +0200
+@@ -257,19 +257,23 @@ unix:!mac {
+     BINDIR = $$PREFIX/bin
+     DATADIR = $$PREFIX/share
+     PKGDATADIR = $$DATADIR/klog
++    MANDIR = $$DATADIR/man/man1
+     INSTALLS += target
+     target.path = $$BINDIR
+ #   DEFINES += DATADIR=\\\"$$DATADIR\\\" \
+ #   PKGDATADIR=\\\"$$PKGDATADIR\\\"
+ #    translations.path = /usr/share/klog/translations
+-    translations.path = $$PKGDATADIR/translations
++    translations.path = $$PKGDATADIR
+ #    translations.files += build/target/translations/*
+-    translations.files += $$DESTDIR/translations/*
++    translations.files += $$DESTDIR/translations/$$QMAKE_FILE_BASE.qm
+     #INSTALLS += translations
+     datafiles.path = $$PKGDATADIR
+     datafiles.files = $$DISTFILES
++    manfiles.path = $$MANDIR
++    manfiles.files = klog.1
+     INSTALLS += translations
+     INSTALLS += datafiles
++    INSTALLS += manfiles
+     LIBS += -lhamlib
+ 
+ }
