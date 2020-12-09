@@ -7,7 +7,7 @@ License:	GPLv2+
 URL:            http://www.klog.xyz
 Source0:        http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}%{?rcv:-%{rcv}}.tar.gz
 Source1:        klog.desktop
-Patch0:         klog-1.2-fix-install.patch
+#Patch0:         klog-1.2-fix-install.patch
 
 BuildRequires:  dos2unix
 BuildRequires:  gettext
