@@ -56,7 +56,7 @@ find ./ -type f -exec chmod -x {} \;
 %qmake_qt5 \
          "PREFIX=%{buildroot}%{_prefix}" \
          "CONFIG+=debug c++14" \
-         KLog.pro
+         src/src.pro
 %make_build
 
 %install
