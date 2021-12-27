@@ -46,9 +46,6 @@ and are not yet implemented.
 %prep
 %autosetup -p1 -n %{name}-%{version}
 
-# Fix line endings
-dos2unix TODO
-
 # For some reason all files in 0.9.2.9 are marked executable
 find ./ -type f -exec chmod -x {} \;
 
