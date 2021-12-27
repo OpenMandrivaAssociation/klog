@@ -59,21 +59,23 @@ find ./ -type f -exec chmod -x {} \;
 %install
 %make_install
 
+mv %{buildroot}%{_datadir}/%{name}/{COPYING,Changelog} .
+
 # Install the provided desktop icon
 for png in 48x48 64x64 128x128 256x256 512x512; do
   mkdir -p %{buildroot}%{_iconsdir}/hicolor/${png}/apps/
-  convert -geometry $png img/klog_512x512.png %{buildroot}%{_iconsdir}/hicolor/${png}/apps/%{name}.png
+  convert -geometry $png src/img/klog_512x512.png %{buildroot}%{_iconsdir}/hicolor/${png}/apps/%{name}.png
 done
 
 # Install the provided desktop file
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
 %files
-%doc AUTHORS Changelog README TODO
-%license COPYING
 %{_bindir}/%{name}
-%{_datadir}/%{name}/
+%doc Changelog README.md
+%license COPYING
+%{_datadir}/%{name}/translations/
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-#{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{name}.1.*
 
