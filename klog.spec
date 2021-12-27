@@ -1,11 +1,11 @@
 Name:           klog
-Version:        1.4.3
+Version:        1.8.5
 Release:        1
 Summary:	A Ham radio logging program for KDE
 Group:		Communications
 License:	GPLv2+
 URL:            http://www.klog.xyz
-Source0:        http://download.savannah.gnu.org/releases/%{name}/%{name}-%{version}%{?rcv:-%{rcv}}.tar.gz
+Source0:        https://github.com/ea4k/klog/releases/download/%{version}/%{name}-%{version}.tar.gz
 Source1:        klog.desktop
 #Patch0:         klog-1.2-fix-install.patch
 
@@ -44,7 +44,7 @@ Some additional features of this application are still under development
 and are not yet implemented.
 
 %prep
-%autosetup -p1 -n %{name}-%{version}%{?rcv:-%{rcv}}
+%autosetup -p1 -n %{name}-%{version}
 
 # Fix line endings
 dos2unix TODO
