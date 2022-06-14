@@ -28,6 +28,8 @@ BuildRequires:  pkgconfig(Qt5SerialPort)
 BuildRequires:  pkgconfig(Qt5Sql)
 BuildRequires:  pkgconfig(Qt5Widgets)
 
+BuildRequires:	glibc-static-devel
+
 %description
 KLog is a Ham radio logging program for KDE
 Some features include:
