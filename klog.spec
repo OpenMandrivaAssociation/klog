@@ -79,6 +79,7 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 #{_datadir}/%{name}/translations/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/klog/mapqmlfile.qml
+%{_datadir}/klog/marker.qml
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 #{_mandir}/man1/%{name}.1.*
 
