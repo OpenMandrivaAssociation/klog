@@ -1,5 +1,5 @@
 Name:           klog
-Version:        2.3
+Version:        2.3.1
 Release:        1
 Summary:	A Ham radio logging program for KDE
 Group:		Communications
