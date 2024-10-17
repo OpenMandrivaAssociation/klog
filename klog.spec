@@ -4,7 +4,7 @@ Release:        1
 Summary:	A Ham radio logging program for KDE
 Group:		Communications
 License:	GPLv2+
-URL:            http://www.klog.xyz
+URL:            https://www.klog.xyz
 Source0:        https://github.com/ea4k/klog/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:        klog.desktop
 #Patch0:         klog-1.2-fix-install.patch
