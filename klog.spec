@@ -19,7 +19,7 @@ BuildRequires:	ninja
 BuildRequires:	desktop-file-utils
 BuildRequires:	dos2unix
 BuildRequires:	gettext
-#BuildRequires:	imagemagick
+BuildRequires:	hamlib++-devel
 BuildRequires:	qmake-qt6
 BuildRequires:	cmake(Qt6LinguistTools)
 BuildRequires:	cmake(Qt6ExamplesAssetDownloaderPrivate)
