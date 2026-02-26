@@ -14,6 +14,7 @@ Source0:	https://github.com/ea4k/klog/archive/refs/tags/%{version}/%{name}-%{ver
 Source1:	klog.desktop
 
 BuildRequires:	cmake
+BuildRequires:	make
 BuildRequires:	ninja
 BuildRequires:	desktop-file-utils
 BuildRequires:	dos2unix
