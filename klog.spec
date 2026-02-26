@@ -4,15 +4,14 @@
 # NOTE https://github.com/ea4k/klog/issues?q=milestone%3AKLog-2.5
 
 Name:		klog
-Version:	2.4.2
+Version:	2.4.3
 Release:	1
 Summary:	A Ham radio logging program for KDE
 Group:		Communications
 License:	GPL-2.0-or-later
 URL:		https://www.klog.xyz
-Source0:	https://github.com/ea4k/klog/archive/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/ea4k/klog/archive/refs/tags/%{version}/%{name}-%{version}.tar.gz
 Source1:	klog.desktop
-Patch0:		klog-2.4.2-cmakelist-fixes.patch
 
 BuildRequires:	cmake
 BuildRequires:	ninja
@@ -63,26 +62,17 @@ and are not yet implemented.
 %prep
 %autosetup -p1 -n %{name}-%{version}
 
-# For some reason all files in 0.9.2.9 are marked executable
-#find ./ -type f -exec chmod -x {} \;
-
 # Fix line endings
 dos2unix TODO
 
-cat << 'EOF' > src/version.h.in
-#pragma once
-#define APP_VERSION "@APP_VERSION@"
-#define APP_PKGVERSION "@APP_PKGVERSION@"
-EOF
-
 %build
-#export CFLAGS="%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
+#export CFLAGS="%%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
 export QMAKE_CXXFLAGS="%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
 qmake-qt6  \
 	PREFIX=%{buildroot}%{_prefix} \
 	"CONFIG+=debug c++17" \
 	src/src.pro
-#%cmake \
+#%%cmake \
 #	-DCMAKE_INSTALL_PREFIX=/usr/ \
 #	-G Ninja
 
@@ -94,7 +84,7 @@ qmake-qt6  \
 mv %{buildroot}%{_datadir}/%{name}/{COPYING,Changelog} .
 
 # Install the provided desktop icon
-for size in 48x48 64x64 128x128 256x256 512x512; do
+for size in 16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512; do
     install -pDm 0644 images/%{name}_$size.png \
         %{buildroot}%{_datadir}/icons/hicolor/$size/apps/%{name}.png
 done
@@ -102,14 +92,21 @@ done
 # Install the provided desktop file
 desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 
+# Install man page
+install -Dpm 644 src/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
+
+# Install the translations qm files from lrelease translations/*.ts
+install -dp %{buildroot}/%{_datadir}/klog/translations
+install -pm 644 build/target/translations/*.qm %{buildroot}/%{_datadir}/klog/translations
+
 %files
 %{_bindir}/%{name}
 %doc Changelog README.md
 %license COPYING
-#{_datadir}/%{name}/translations/
+%{_datadir}/%{name}/translations/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/klog/mapqmlfile.qml
 %{_datadir}/klog/marker.qml
 %{_iconsdir}/hicolor/*/apps/%{name}.png
-#{_mandir}/man1/%{name}.1.*
+%{_mandir}/man1/%{name}.1.*
 
