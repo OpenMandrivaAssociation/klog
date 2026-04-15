@@ -99,6 +99,7 @@ install -Dpm 644 src/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 %find_lang %{name} --with-qt
 
 %files -f %{name}.lang
+%doc %{_datadir}/doc/klog/
 %{_bindir}/%{name}
 %doc README.md
 %{_datadir}/applications/%{name}.desktop
