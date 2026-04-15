@@ -39,6 +39,7 @@ BuildRequires:	pkgconfig(Qt6Sql)
 BuildRequires:	pkgconfig(Qt6Test)
 BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(Qt6Xml)
+BuildRequires:	pkgconfig(udev)
 
 #BuildRequires:	glibc-static-devel
 
