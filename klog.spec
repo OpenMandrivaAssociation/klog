@@ -66,19 +66,21 @@ dos2unix TODO
 
 %build
 #export CFLAGS="%%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
-export QMAKE_CXXFLAGS="%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
-qmake-qt6  \
-	PREFIX=%{buildroot}%{_prefix} \
-	"CONFIG+=debug c++17" \
-	src/src.pro
+#export QMAKE_CXXFLAGS="%{optflags} -fno-lto -Wno-error=deprecated-declarations -Wno-error=unused-result"
+#qmake-qt6  \
+#	PREFIX=%{buildroot}%{_prefix} \
+#	"CONFIG+=debug c++17" \
+#	src/src.pro
 #%%cmake \
 #	-DCMAKE_INSTALL_PREFIX=/usr/ \
 #	-G Ninja
 
+%cmake
+
 %make_build
 
 %install
-%make_install
+%make_install -C build
 
 mv %{buildroot}%{_datadir}/%{name}/{COPYING,Changelog} .
 
