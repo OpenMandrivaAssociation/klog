@@ -101,7 +101,6 @@ install -Dpm 644 src/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 %files -f %{name}.lang
 %{_bindir}/%{name}
 %doc README.md
-%{_datadir}/%{name}/translations/
 %{_datadir}/applications/%{name}.desktop
 %{_iconsdir}/hicolor/*/apps/%{name}.png
 %{_mandir}/man1/%{name}.1.*
