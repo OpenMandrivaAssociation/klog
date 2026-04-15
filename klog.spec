@@ -84,8 +84,6 @@ dos2unix TODO
 %install
 %make_install -C build
 
-mv %{buildroot}%{_datadir}/%{name}/{COPYING,Changelog} .
-
 # Install the provided desktop icon
 for size in 16x16 24x24 32x32 48x48 64x64 128x128 256x256 512x512; do
     install -pDm 0644 images/%{name}_$size.png \
@@ -104,8 +102,7 @@ install -pm 644 build/target/translations/*.qm %{buildroot}/%{_datadir}/klog/tra
 
 %files
 %{_bindir}/%{name}
-%doc Changelog README.md
-%license COPYING
+%doc README.md
 %{_datadir}/%{name}/translations/
 %{_datadir}/applications/%{name}.desktop
 %{_datadir}/klog/mapqmlfile.qml
