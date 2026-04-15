@@ -96,11 +96,9 @@ desktop-file-install --dir=%{buildroot}%{_datadir}/applications %{SOURCE1}
 # Install man page
 install -Dpm 644 src/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 
-# Install the translations qm files from lrelease translations/*.ts
-install -dp %{buildroot}/%{_datadir}/klog/translations
-install -pm 644 build/target/translations/*.qm %{buildroot}/%{_datadir}/klog/translations
+%find_lang %{name} --with-qt
 
-%files
+%files -f %{name}.lang
 %{_bindir}/%{name}
 %doc README.md
 %{_datadir}/%{name}/translations/
