@@ -4,7 +4,7 @@
 # NOTE https://github.com/ea4k/klog/issues?q=milestone%3AKLog-2.5
 
 Name:		klog
-Version:	2.4.3
+Version:	2.5
 Release:	1
 Summary:	A Ham radio logging program for KDE
 Group:		Communications
