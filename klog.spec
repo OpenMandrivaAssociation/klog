@@ -16,6 +16,7 @@ BuildRequires:	gettext
 BuildRequires:	hamlib++-devel
 BuildRequires:	qmake-qt6
 BuildRequires:	cmake(Qt6LinguistTools)
+BuildRequires:	pkgconfig(libudev)
 BuildRequires:	pkgconfig(libusb)
 BuildRequires:	pkgconfig(hamlib)
 BuildRequires:	pkgconfig(Qt6Charts)
