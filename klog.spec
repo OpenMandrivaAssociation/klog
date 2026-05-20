@@ -33,6 +33,7 @@ BuildRequires:	pkgconfig(Qt6Quick)
 BuildRequires:	pkgconfig(Qt6QuickWidgets)
 BuildRequires:	pkgconfig(Qt6SerialPort)
 BuildRequires:	pkgconfig(Qt6Sql)
+BuildRequires:	pkgconfig(Qt6Test)
 BuildRequires:	pkgconfig(Qt6Widgets)
 BuildRequires:	pkgconfig(Qt6Xml)
 
